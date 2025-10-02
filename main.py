@@ -26,6 +26,7 @@ cursor.execute("""
 cursor.execute("ATTACH DATABASE 'banco_funcionarios\\banco_funcionarios.db' AS banco_funcionarios")
 cursor.execute("ATTACH DATABASE 'banco_vendas\\banco_vendas.db' AS banco_vendas")
 
+
 #Criando dataframes dos databases importados, também via SQL
 df_funcionarios = pd.read_sql("SELECT * FROM banco_funcionarios.funcionario AS funcionarios", con)
 df_vendas = pd.read_sql("SELECT * FROM banco_vendas.venda AS VENDAS", con)
@@ -120,9 +121,9 @@ for i, valor in enumerate(totais_saldo_usado):
     comparativo_mes.text(i, valor + 0.1, f"R$ {valor}", ha='left', va='bottom')
 
 #Exprota os dados da tabela 'status_saldo' para exel e os graficos em imagens
-df_status_saldo.to_excel("status_saldo.xlsx", index=False)
-fig.savefig("Graficos.png", dpi=300)
-plt.savefig("Grafico_comparativo.png", dpi=300)
+df_status_saldo.to_excel("resultados/status_saldo.xlsx", index=False)
+fig.savefig("resultados/Graficos.png", dpi=300)
+plt.savefig("resultados/Grafico_comparativo.png", dpi=300)
 
 con.commit()
 con.close()
