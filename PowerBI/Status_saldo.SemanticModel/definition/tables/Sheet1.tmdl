@@ -1,0 +1,83 @@
+table Sheet1
+	lineageTag: 775b16a6-e3f9-452a-b181-885fc780d1db
+
+	column 'Nome funcionario'
+		dataType: string
+		lineageTag: 66b91011-1b38-406b-9c02-14dbb48c74e6
+		summarizeBy: none
+		sourceColumn: Nome funcionario
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'saldo total mes'
+		dataType: int64
+		formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+		lineageTag: 5eaa824b-3100-4f6d-91b5-0c5c06ddec9a
+		summarizeBy: sum
+		sourceColumn: saldo total mes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	column 'saldo usado agosto'
+		dataType: double
+		formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+		lineageTag: b653e569-c130-4cb1-9948-b9211f0cbe91
+		summarizeBy: sum
+		sourceColumn: saldo usado agosto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	column 'saldo usado setembro'
+		dataType: double
+		formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+		lineageTag: b1c429d0-b9b2-4175-913c-c38773ec7e8a
+		summarizeBy: sum
+		sourceColumn: saldo usado setembro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	column 'saldo usado outubro'
+		dataType: double
+		formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+		lineageTag: 8e389714-da38-4c2d-b01a-72d331befcda
+		summarizeBy: sum
+		sourceColumn: saldo usado outubro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	column 'saldo usado total'
+		dataType: double
+		formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+		lineageTag: 06259d73-a8e6-4d8d-b94b-02effecd4b8b
+		summarizeBy: sum
+		sourceColumn: saldo usado total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	partition Sheet1 = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\multy\Downloads\Projetos Curso\BibliotecaDeLivros\status_saldo.xlsx"), null, true),
+				    Sheet1_Sheet = Fonte{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"id_status_funcionario", Int64.Type}, {"nome_funcionario", type text}, {"saldo_total_mes", Int64.Type}, {"saldo_usado_agosto", type number}, {"saldo_usado_setembro", type number}, {"saldo_usado_outubro", type number}, {"saldo_usado_total", type number}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado",{"id_status_funcionario"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Colunas Removidas",{{"saldo_usado_agosto", "saldo usado agosto"}, {"saldo_total_mes", "saldo total mes"}, {"saldo_usado_outubro", "saldo usado outubro"}, {"saldo_usado_setembro", "saldo usado setembro"}, {"saldo_usado_total", "saldo usado total"}, {"nome_funcionario", "Nome funcionario"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
