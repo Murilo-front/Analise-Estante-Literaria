@@ -17,8 +17,8 @@ Projeto desenvolvido com o intuito de realizar uma analise do saldo gasto de cad
 
 #### Exemplos de graficos gerados
 
-![Gráfico 1](Graficos.png)
-![Gráfico 2](Grafico_comparativo.png)
+![Gráfico 1](resultados/Graficos.png)
+![Gráfico 2](resultados/Grafico_comparativo.png)
 
 ### 💻 Tecnologias utilizadas
 
